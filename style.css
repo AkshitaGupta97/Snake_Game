@@ -23,13 +23,15 @@ h1 {
 }
 .gameArena {
     background-color: rgb(44, 43, 43);
-    /* width: 70%; height: 70%; */
-    width: 600px;
-    height: 600px;
+     width: 70%; 
+    height: 70%; 
+  /*  width: 600px;
+    height: 600px; */
     border: 5px solid rgba(154, 242, 143, 0.7);
     border-radius: 5px;
     box-shadow: 7px 8px 8px rgb(237, 249, 237);
     color: white;
+    position: relative;
 }
 .food {
     width: 20px;

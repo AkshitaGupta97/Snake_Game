@@ -13,9 +13,41 @@ document.addEventListener('DOMContentLoaded', () => {
 
     let snake = [{x:160, y:200}, {x:140, y:200}, {x:120, y:200}];  // [head, body, tail]. on x -> gap of 20 is take.
 
-    
+ 
+    function drawDiv(x, y, className){
+        const divElement = document.createElement('div');
+        divElement.classList.add(className);  //whatever class name you want to add in div you may add int it.
+        
+        // here we are getting top-left index of div =  food
+        divElement.style.top = `${y}px`; 
+        divElement.style.left = `${x}px`;
+
+        return divElement;
+
+    }
+
+ 
+    function drawFoodAndSnake() {  
+        gameArena.innerHTML = "";  // here everytime we are clearing the game arena page and redraw the page
+
+        const foodElement = drawDiv(food.x, food.y, 'food'); // draw random position of food
+        gameArena.appendChild(foodElement);
+
+        // draw position of snake, with snakeElement, and using for-each because snake is array of objects.
+        snake.forEach((snakeCell) => {
+            const snakElement = drawDiv(snakeCell.x, snakeCell.y, 'snake');
+            gameArena.appendChild(snakElement);
+        })
+    }
 
 
+    function runGame(){
+        if(!gameStarted){
+            gameStarted = true; // mark the status to true
+            //gameLoop();  // as the game is continuous proocess.
+            drawFoodAndSnake();
+        }
+    }
 
     function initiateGame() {
         const scoreBoard = document.createElement('div');
