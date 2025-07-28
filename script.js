@@ -3,8 +3,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const gameArena = document.querySelector('.gameArena');
   //   const arenaSize = 600;  instead of it i am doing
-    const arenaSize = gameArena.offsetWidth;
+    const arenaSize = gameArena.offsetWidth;  // offsetWidth is property of js that tells how wide is html elements.
     const cellSize = 20;
+    const rowsColOfCell = arenaSize / cellSize; // let arenaSize = 800 and cellsize = 20, then rowsColOfCell = 800/20.
     let score = 0; // score of game.
     let gameStarted = false;   // boolean flag  shows game status.
 
@@ -17,6 +18,7 @@ document.addEventListener('DOMContentLoaded', () => {
     let dx = cellSize; 
     let dy = 0;
     let intervalId;
+    let gameSpeed = 200; // starting gameSpeed is 200.
     
     // Update snake 
     function updateSnake(){
@@ -26,6 +28,14 @@ document.addEventListener('DOMContentLoaded', () => {
         // collision of snake and food
         if(newHead.x === food.x  && newHead.y === food.y){
             score += 1; // agar snake food ko collide karta hai toh score++ kardo.
+            moveFood();  // when snake eats food call to moveFood() function to change its location.
+
+            // to increase the difficulty we are increasing the game speed. 
+            if(gameSpeed > 60){
+                clearInterval(intervalId);
+                gameSpeed -= 10;
+                gameLoop();
+            }
         }
         else {
             snake.pop();  // yaha pop() karna important hai because, agar snake food ko nehi khaa pata hai toh jo newHead add kia tha, 
@@ -33,6 +43,19 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
+    function moveFood(){
+        // we are generating newx and newy, to create a random food location
+        let newX, newY;
+
+        // we are using do-while loop, because i need to check condition atleast once. 
+        do{
+            newX = Math.floor(Math.random()*rowsColOfCell) * cellSize;
+            newY = Math.floor(Math.random()*rowsColOfCell) * cellSize;
+        }while(snake.some(snakeCell => snakeCell.x === newX && snakeCell.y === newY)) // we are doing this because i don't want my food to appear in snake body.
+        // .some() is used to check condition atLeast once.
+
+        food = {x: newX, y: newY};
+    }
 
     /*
         consider for dx and dy -> 
@@ -109,7 +132,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // check condition of game over
 
-    // collision case.
+    // collision case of snake and wall .
     function isGameOver(){
         // if snake collide with the body parts , comapare head with other body part, so start loop with 1
         for(let i=1;i<snake.length;i++){
@@ -121,7 +144,7 @@ document.addEventListener('DOMContentLoaded', () => {
         // if snake collid with the wall
 
         const hitLeftWall = snake[0].x < 0; // snake[0] = head jo ki left boundary ko touch kar chuka hai
-        const hitRightWall = snake[0].x > arenaSize -cellSize;
+        const hitRightWall = snake[0].x > arenaSize -cellSize; // -cellsize karna important hai because, snake boundary ke bahar naa jaee.
         const hitTopWall = snake[0].y < 0;
         const hitBottomWall = snake[0].y > arenaSize -cellSize;
 
@@ -141,7 +164,7 @@ document.addEventListener('DOMContentLoaded', () => {
             drawFoodAndSnake();
             updateSnake();
 
-        }, 300);
+        }, gameSpeed); // 200;  this is done to increase speed of game.
     }
 
     function runGame(){
