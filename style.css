@@ -32,6 +32,7 @@ h1 {
     box-shadow: 7px 8px 8px rgb(237, 249, 237);
     color: white;
     position: relative;
+    overflow: hidden;
 }
 .food {
     width: 20px;
@@ -73,7 +74,21 @@ h1 {
 #score-board {
     font-size: 2rem;
     font-weight: 600;
-    color: black;
+    color: rgb(166, 6, 6);
     margin: 10px 0;
 }
 
+.pop-up {
+    width: 2rem;
+    height: 1rem;
+    background-color: orangered;
+    color: whitesmoke;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 8px;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    display: none;
+    transform: translate(-50%, -50%);
+}

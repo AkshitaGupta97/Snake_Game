@@ -3,9 +3,19 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const gameArena = document.querySelector('.gameArena');
   //   const arenaSize = 600;  instead of it i am doing
-    const arenaSize = gameArena.offsetWidth;  // offsetWidth is property of js that tells how wide is html elements.
+  //  const arenaSize = gameArena.offsetWidth;  // offsetWidth is property of js that tells how wide is html elements.
     const cellSize = 20;
-    const rowsColOfCell = arenaSize / cellSize; // let arenaSize = 800 and cellsize = 20, then rowsColOfCell = 800/20.
+   // const rowsColOfCell = Math.floor(arenaSize / cellSize); // let arenaSize = 800 and cellsize = 20, then rowsColOfCell = 800/20. done to generate food b/w 0 and agmeArena
+
+   // we are takeing out width and height, because we have given width and height in %, so js does not assume symmerty same.
+   // it consider other width and height is different browser.
+
+   const arenaWidth = gameArena.offsetWidth;
+   const arenaHeight = gameArena.offsetHeight;
+
+   const cols = arenaWidth / cellSize;
+   const rows = arenaHeight / cellSize
+
     let score = 0; // score of game.
     let gameStarted = false;   // boolean flag  shows game status.
 
@@ -49,10 +59,15 @@ document.addEventListener('DOMContentLoaded', () => {
 
         // we are using do-while loop, because i need to check condition atleast once. 
         do{
-            newX = Math.floor(Math.random()*rowsColOfCell) * cellSize;
-            newY = Math.floor(Math.random()*rowsColOfCell) * cellSize;
+            newX = Math.floor(Math.random()*cols) * cellSize; 
+            newY = Math.floor(Math.random()*rows) * cellSize;
         }while(snake.some(snakeCell => snakeCell.x === newX && snakeCell.y === newY)) // we are doing this because i don't want my food to appear in snake body.
         // .some() is used to check condition atLeast once.
+
+        // check if food is whether generated outside the gameArena
+
+        /*if(newX >= arenaSize)  newX = arenaSize - cellSize;
+        if(newY >= arenaSize)  newX = arenaSize - cellSize;*/
 
         food = {x: newX, y: newY};
     }
@@ -144,9 +159,9 @@ document.addEventListener('DOMContentLoaded', () => {
         // if snake collid with the wall
 
         const hitLeftWall = snake[0].x < 0; // snake[0] = head jo ki left boundary ko touch kar chuka hai
-        const hitRightWall = snake[0].x > arenaSize -cellSize; // -cellsize karna important hai because, snake boundary ke bahar naa jaee.
+        const hitRightWall = snake[0].x > arenaWidth -cellSize; // -cellsize karna important hai because, snake boundary ke bahar naa jaee.
         const hitTopWall = snake[0].y < 0;
-        const hitBottomWall = snake[0].y > arenaSize -cellSize;
+        const hitBottomWall = snake[0].y > arenaHeight -cellSize; 
 
         return hitBottomWall || hitLeftWall || hitRightWall || hitTopWall;
     }
@@ -159,12 +174,25 @@ document.addEventListener('DOMContentLoaded', () => {
                 clearInterval(intervalId);
                 gameStarted = false;
               //  alert('Game Over');
+                displayPop();
                 return;
             }
             drawFoodAndSnake();
             updateSnake();
+            drawScore();
 
         }, gameSpeed); // 200;  this is done to increase speed of game.
+    }
+
+    function displayPop(){
+        const pop = document.createElement('div');
+        pop.classList.add('pop-up');
+        pop.innerHTML = `
+            <h4> Game Over </h4>
+            <h5> Your Score : ${score}
+            `
+        pop.style.display = 'block';
+        
     }
 
     function runGame(){
@@ -174,6 +202,13 @@ document.addEventListener('DOMContentLoaded', () => {
             // when key is pressed the direction is changed.
             document.addEventListener('keydown', changeDirection);
         }
+    }
+
+    // drawing the score board.
+
+    function drawScore() {
+        const scoreBoard = document.getElementById('score-board');
+        scoreBoard.textContent = `Score : ${score}`
     }
 
     function initiateGame() {
