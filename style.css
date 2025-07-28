@@ -1,0 +1,74 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+}
+
+html, body {
+    background-color: rgb(238, 225, 225);
+    color: whitesmoke;
+    height: 100vh;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+h1 {
+    color: orange;
+    text-decoration: underline;
+    margin-bottom: 10px;
+
+}
+.gameArena {
+    background-color: rgb(44, 43, 43);
+    /* width: 70%; height: 70%; */
+    width: 600px;
+    height: 600px;
+    border: 5px solid rgba(154, 242, 143, 0.7);
+    border-radius: 5px;
+    box-shadow: 7px 8px 8px rgb(237, 249, 237);
+    color: white;
+}
+.food {
+    width: 20px;
+    height: 20px;
+    background-color: rgb(234, 65, 65);
+    border-radius: 50%;
+    border: 2px solid red;
+    position: absolute;
+    animation: blink 1s infinite;
+}
+@keyframes blink {
+    50% {
+        opacity: 0.4;
+    }
+}
+
+.snake {
+    position: absolute;
+    background-color: rgb(130, 250, 9);
+    border-radius: 3px;
+    border: 2px solid rgb(85, 167, 3);
+    width: 20px;
+    height: 20px;
+} 
+
+.start-game {
+    background-color: rgb(248, 82, 21);
+    color: rgb(253, 223, 223);
+    border: 2px solid orange;
+    border-radius: 5px;
+    padding: 10px 15px;
+    cursor: pointer;
+    margin: 4px 0;
+}
+
+#score-board {
+    font-size: 2rem;
+    font-weight: 600;
+    color: black;
+    margin: 10px 0;
+}
+
