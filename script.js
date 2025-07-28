@@ -12,7 +12,26 @@ document.addEventListener('DOMContentLoaded', () => {
     // create snake as array of objects, to store the position.
 
     let snake = [{x:140, y:160}, {x:120, y:160}, {x:100, y:160}];  // [head, body, tail]. on x -> gap of 20 is take.
+
+    let dx = cellSize; 
+    let dy = 0;
     
+    // Update snake 
+    function updateSnake(){
+        let newHead = {x : snake[0].x+dx, y : snake[0].y+dy}; // x -> snake[0]th object se x extract karo.
+        snake.unshift(newHead); // Add new head to snake.  unshift() -> adds an element to starting of array
+
+        // collision of snake and food
+        if(newHead.x === food.x  && newHead.y === food.y){
+            score += 1; // agar snake food ko collide karta hai toh score++ kardo.
+        }
+        else {
+            snake.pop();  // yaha pop() karna important hai because, agar snake food ko nehi khaa pata hai toh jo newHead add kia tha, 
+            // jo ki extra element hai use pop() kardo.
+        }
+    }
+
+
     /*
         consider for dx and dy -> 
        * in case of right direction = {dx + cellsize, dy}, cells of "x" are increased in right direction = in x -> +cellsize, +ve
@@ -20,9 +39,6 @@ document.addEventListener('DOMContentLoaded', () => {
        * in case of up direction = {dx, dy - cellsize}, cells of "y" are decreased in up direction = in y -> -cellSize, -ve
        * in case of down direction = {dx, dy + cellsize}, cells of "y" are increased in down direction = in y -> +cellsize , +ve
     */
-
-    let dx = cellSize; 
-    let dy = 0;
 
     // here "key/code" is name of key when we do keydown see in console.
     function changeDirection(event){
@@ -89,12 +105,18 @@ document.addEventListener('DOMContentLoaded', () => {
         })
     }
 
+    function gameLoop(){
+        // use set time interval to continuously move the snake
+        setInterval(() => {
+            drawFoodAndSnake();
+            updateSnake();
+        }, 300);
+    }
 
     function runGame(){
         if(!gameStarted){
             gameStarted = true; // mark the status to true
-            //gameLoop();  // as the game is continuous proocess.
-            drawFoodAndSnake();
+            gameLoop();  // as the game is continuous process and hame continuously snake and food ko move karna hai.         
             // when key is pressed the direction is changed.
             document.addEventListener('keydown', changeDirection);
         }
