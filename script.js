@@ -2,7 +2,8 @@
 document.addEventListener('DOMContentLoaded', () => {
 
     const gameArena = document.querySelector('.gameArena');
-    const arenaSize = 600;
+  //   const arenaSize = 600;  instead of it i am doing
+    const arenaSize = gameArena.offsetWidth;
     const cellSize = 20;
     let score = 0; // score of game.
     let gameStarted = false;   // boolean flag  shows game status.
@@ -15,6 +16,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     let dx = cellSize; 
     let dy = 0;
+    let intervalId;
     
     // Update snake 
     function updateSnake(){
@@ -105,11 +107,40 @@ document.addEventListener('DOMContentLoaded', () => {
         })
     }
 
+    // check condition of game over
+
+    // collision case.
+    function isGameOver(){
+        // if snake collide with the body parts , comapare head with other body part, so start loop with 1
+        for(let i=1;i<snake.length;i++){
+            if(snake[0].x === snake[i].x && snake[0].y === snake[i].y){
+                return true;
+            }
+        }
+
+        // if snake collid with the wall
+
+        const hitLeftWall = snake[0].x < 0; // snake[0] = head jo ki left boundary ko touch kar chuka hai
+        const hitRightWall = snake[0].x > arenaSize -cellSize;
+        const hitTopWall = snake[0].y < 0;
+        const hitBottomWall = snake[0].y > arenaSize -cellSize;
+
+        return hitBottomWall || hitLeftWall || hitRightWall || hitTopWall;
+    }
+
     function gameLoop(){
         // use set time interval to continuously move the snake
-        setInterval(() => {
+        intervalId = setInterval(() => {
+            // check condition if game is over 
+            if(isGameOver()){
+                clearInterval(intervalId);
+                gameStarted = false;
+              //  alert('Game Over');
+                return;
+            }
             drawFoodAndSnake();
             updateSnake();
+
         }, 300);
     }
 
