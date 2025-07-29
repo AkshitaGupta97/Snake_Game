@@ -163,7 +163,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const hitTopWall = snake[0].y < 0;
         const hitBottomWall = snake[0].y > arenaHeight -cellSize; 
 
-        return hitBottomWall || hitLeftWall || hitRightWall || hitTopWall;
+        return hitBottomWall || hitLeftWall || hitRightWall || hitTopWall; // these are condition of gameover
     }
 
     function gameLoop(){
@@ -212,18 +212,23 @@ document.addEventListener('DOMContentLoaded', () => {
 
         startBtn.addEventListener('click', () => {
             startBtn.style.display = 'none';  // hide start button when the game has started,
-            // when we click on game start remove pop-up
+
+            // after clicking on start-game, if there is exisiting pop up, then remove it.
             const existingPopUp = document.querySelector('.pop-up');
             if(existingPopUp){
                 existingPopUp.remove();
 
-                // and reset the game
-                gameStarted = false;
-                score = 0;
-                
-                clearInterval(intervalId);
+                // reset the game again.
 
-                intervalId = setInterval(gameLoop, gameSpeed);
+                score = 0;
+                snake = [{x:140, y:160}, {x:120, y:160}, {x:100, y:160}];
+                food = {x: 200, y:160};
+                gameStarted = false;
+                dx = cellSize; 
+                dy = 0;
+
+                runGame();
+                drawScore();
             }
 
             runGame();  // and call to rungame().
@@ -236,10 +241,11 @@ document.addEventListener('DOMContentLoaded', () => {
     initiateGame();
 
     function displayPop(){
-        console.log("pop is called");
+      //  console.log("pop is called");
         
         const pop = document.createElement('div');
         pop.classList.add('pop-up');
+
         pop.innerHTML = `
             <h4> Game Over ! </h4>
             <h5> Your Score : ${score}

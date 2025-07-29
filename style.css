@@ -93,4 +93,8 @@ h1 {
     transform: translate(-50%, -50%);
     z-index: 2;
    overflow: hidden;
+   box-shadow: 8px 5px 8px  rgb(184, 235, 139);
+}
+.pop-up h4 {
+    color: rgb(57, 56, 56);
 }
