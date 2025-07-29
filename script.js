@@ -217,20 +217,17 @@ document.addEventListener('DOMContentLoaded', () => {
             const existingPopUp = document.querySelector('.pop-up');
             if(existingPopUp){
                 existingPopUp.remove();
-
-                // reset the game again.
-
-                score = 0;
-                snake = [{x:140, y:160}, {x:120, y:160}, {x:100, y:160}];
-                food = {x: 200, y:160};
-                gameStarted = false;
-                dx = cellSize; 
-                dy = 0;
-
-                runGame();
-                drawScore();
             }
 
+            // reset the game again and when the popUp is removed.
+            score = 0;
+            snake = [{x:140, y:160}, {x:120, y:160}, {x:100, y:160}];
+            food = {x: 200, y:160};
+            gameStarted = false;
+            dx = cellSize; 
+            dy = 0;
+
+            drawScore();
             runGame();  // and call to rungame().
         })
 
@@ -257,5 +254,22 @@ document.addEventListener('DOMContentLoaded', () => {
         document.body.append(pop);
         
     }
+
+    document.getElementById('up').addEventListener('click', () => {
+        dx = 0;
+        dy = -cellSize;
+    });
+    document.getElementById('left').addEventListener('click', () => {
+        dx = -cellSize;
+        dy = 0;
+    });
+    document.getElementById('down').addEventListener('click', () => {
+        dx = 0;
+        dy = cellSize;
+    });
+    document.getElementById('right').addEventListener('click', () => {
+        dx = cellSize;
+        dy = 0;
+    });
 
 })

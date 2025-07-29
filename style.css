@@ -98,3 +98,42 @@ h1 {
 .pop-up h4 {
     color: rgb(57, 56, 56);
 }
+
+.controls button {
+    padding: 6px;
+    border-radius: 4px;
+    background-color: blue;
+    font-size: 12px;
+    font-weight: 600;
+    border: none;
+    margin-top: 10px;
+    color: white;
+    display: none;
+    z-index: 2;
+
+    animation: slideIn 1s ease-in-out;
+}
+.controls button:hover {
+  transform: scale(1.2);
+}
+
+@keyframes slideIn {
+    0% {
+        transform: translate(-100px);
+    }
+    100% {
+        transform: translate(0);
+    }
+}
+
+@media screen and (max-width: 768px) {
+  .controls {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 5px;
+  }
+  .controls button {
+    display: inline-block; /* or flex if preferred */
+  }
+}
