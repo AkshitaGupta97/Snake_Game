@@ -79,8 +79,8 @@ h1 {
 }
 
 .pop-up {
-    width: 2rem;
-    height: 1rem;
+    width: 60;
+    height: 58px;
     background-color: orangered;
     color: whitesmoke;
     padding: 10px 20px;
@@ -91,4 +91,6 @@ h1 {
     left: 50%;
     display: none;
     transform: translate(-50%, -50%);
+    z-index: 2;
+   overflow: hidden;
 }

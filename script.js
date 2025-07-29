@@ -5,7 +5,6 @@ document.addEventListener('DOMContentLoaded', () => {
   //   const arenaSize = 600;  instead of it i am doing
   //  const arenaSize = gameArena.offsetWidth;  // offsetWidth is property of js that tells how wide is html elements.
     const cellSize = 20;
-   // const rowsColOfCell = Math.floor(arenaSize / cellSize); // let arenaSize = 800 and cellsize = 20, then rowsColOfCell = 800/20. done to generate food b/w 0 and agmeArena
 
    // we are takeing out width and height, because we have given width and height in %, so js does not assume symmerty same.
    // it consider other width and height is different browser.
@@ -13,7 +12,8 @@ document.addEventListener('DOMContentLoaded', () => {
    const arenaWidth = gameArena.offsetWidth;
    const arenaHeight = gameArena.offsetHeight;
 
-   const cols = arenaWidth / cellSize;
+   //done to generate food b/w 0 and agmeArena
+   const cols = arenaWidth / cellSize;  
    const rows = arenaHeight / cellSize
 
     let score = 0; // score of game.
@@ -41,7 +41,7 @@ document.addEventListener('DOMContentLoaded', () => {
             moveFood();  // when snake eats food call to moveFood() function to change its location.
 
             // to increase the difficulty we are increasing the game speed. 
-            if(gameSpeed > 60){
+            if(gameSpeed > 50){
                 clearInterval(intervalId);
                 gameSpeed -= 10;
                 gameLoop();
@@ -184,17 +184,6 @@ document.addEventListener('DOMContentLoaded', () => {
         }, gameSpeed); // 200;  this is done to increase speed of game.
     }
 
-    function displayPop(){
-        const pop = document.createElement('div');
-        pop.classList.add('pop-up');
-        pop.innerHTML = `
-            <h4> Game Over </h4>
-            <h5> Your Score : ${score}
-            `
-        pop.style.display = 'block';
-        
-    }
-
     function runGame(){
         if(!gameStarted){
             gameStarted = true; // mark the status to true
@@ -223,6 +212,19 @@ document.addEventListener('DOMContentLoaded', () => {
 
         startBtn.addEventListener('click', () => {
             startBtn.style.display = 'none';  // hide start button when the game has started,
+            // when we click on game start remove pop-up
+            const existingPopUp = document.querySelector('.pop-up');
+            if(existingPopUp){
+                existingPopUp.remove();
+
+                // and reset the game
+                gameStarted = false;
+                score = 0;
+                
+                clearInterval(intervalId);
+
+                intervalId = setInterval(gameLoop, gameSpeed);
+            }
 
             runGame();  // and call to rungame().
         })
@@ -232,5 +234,22 @@ document.addEventListener('DOMContentLoaded', () => {
     }
     
     initiateGame();
+
+    function displayPop(){
+        console.log("pop is called");
+        
+        const pop = document.createElement('div');
+        pop.classList.add('pop-up');
+        pop.innerHTML = `
+            <h4> Game Over ! </h4>
+            <h5> Your Score : ${score}
+            `
+        pop.style.display = 'block';
+        
+        document.querySelector('.start-game').style.display = 'block';
+
+        document.body.append(pop);
+        
+    }
 
 })
